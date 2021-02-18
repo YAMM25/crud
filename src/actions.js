@@ -4,6 +4,7 @@ import 'firebase/firestore'
 
 const db = firebase.firestore(firebaseApp)
 
+//Metodo para devolver toda la colección
 export const getCollection = async(collection) => {
     const result = { statusResponse : false, data : null,error: null }
     try {
@@ -17,11 +18,37 @@ export const getCollection = async(collection) => {
     return result
 }
 
+//Metodo para adicionar elementos a una colección
 export const addDocument = async(collection, data) => {
     const result = { statusResponse : false, data: null, error: null }
     try {
         const response = await db.collection(collection).add(data)
         result.data = { id: response.id}
+        result.statusResponse = true
+    } catch (error) {
+        result.error = error
+    }
+    return result
+}
+
+//Metodo para traer un ducumento
+export const getDocument = async(collection, id) => {
+    const result = { statusResponse : false, data: null, error: null}
+    try {
+        const response = await db.collection(collection).doc(id).get()
+        result.data = { id: response.id, ...response.data() }
+        result.statusResponse = true
+    } catch (error) {
+        result.error = error
+    }
+    return result
+}
+
+//Metodo para actualizar documentos en la BD
+export const updateDocument = async(collection, id, data) => {
+    const result = { statusResponse : false, error: null}
+    try {
+        await db.collection(collection).doc(id).update(data)
         result.statusResponse = true
     } catch (error) {
         result.error = error
