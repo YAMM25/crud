@@ -1,5 +1,5 @@
 import { firebaseApp } from './firebase'
-import * as firebase from 'firebase'
+import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 const db = firebase.firestore(firebaseApp)
@@ -55,6 +55,7 @@ export const updateDocument = async(collection, id, data) => {
     }
     return result
 }
+
 
 //Metodo para eliminar documentos en la BD
 export const deleteDocument = async(collection, id) => {
